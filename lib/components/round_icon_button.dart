@@ -9,11 +9,12 @@ class RoundIconButton extends StatelessWidget {
     this.radius,
     this.padding,
     this.size,
+    this.iconColor,
   });
 
   final Function onPressed;
   final IconData icon;
-  final Color fillColor;
+  final Color fillColor, iconColor;
   final double radius;
   final EdgeInsetsGeometry padding;
   final double size;
@@ -26,7 +27,7 @@ class RoundIconButton extends StatelessWidget {
         onPressed: onPressed,
         icon: Icon(
           icon,
-          color: Colors.white,
+          color: iconColor ?? Colors.white,
           size: size ?? 30,
         ),
       ),

@@ -1,10 +1,16 @@
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flash_chat/routes/chat_screen.dart';
 import 'package:flash_chat/routes/submit_otp.dart';
+import 'package:flash_chat/routes/user_profile.dart';
 import 'package:flash_chat/routes/verification.dart';
 import 'package:flash_chat/routes/welcome_screen2.dart';
 import 'package:flutter/material.dart';
 
-void main() => runApp(FlashChat());
+Future<void> main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp();
+  runApp(FlashChat());
+}
 
 class FlashChat extends StatelessWidget {
   @override
@@ -33,6 +39,9 @@ class FlashChat extends StatelessWidget {
                   timeout: args['timeout'],
                 ),
               );
+              break;
+            case UserProfile.id:
+              return MaterialPageRoute(builder: (context) => UserProfile());
               break;
             case ChatScreen.id:
               return MaterialPageRoute(builder: (context) => ChatScreen());

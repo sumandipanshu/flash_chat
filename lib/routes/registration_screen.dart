@@ -18,7 +18,7 @@ class RegistrationScreen extends StatefulWidget {
 class _RegistrationScreenState extends State<RegistrationScreen> {
   String email;
   String password;
-  UserUpdateInfo _userUpdateInfo = UserUpdateInfo();
+  String displayName;
   final _auth = FirebaseAuth.instance;
   bool _isWaiting = false;
 
@@ -56,7 +56,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                   hintText: 'Enter your name',
                 ),
                 onChanged: (value) {
-                  _userUpdateInfo.displayName = value;
+                  displayName = value;
                 },
               ),
               SizedBox(
@@ -101,14 +101,14 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                         _isWaiting = true;
                       });
                       try {
-                        if (_userUpdateInfo.displayName == null)
+                        if (displayName == null)
                           throw PlatformException(
                               code: 'NO_NAME', message: 'Enter a valid name.');
                         final newUser =
                             await _auth.createUserWithEmailAndPassword(
                                 email: email, password: password);
                         if (newUser != null) {
-                          newUser.user.updateProfile(_userUpdateInfo);
+                          newUser.user.updateProfile(displayName: displayName);
                           Navigator.pushNamed(context, ChatScreen.id);
                         }
                       } catch (e) {

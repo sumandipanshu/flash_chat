@@ -1,6 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flash_chat/routes/chat_screen.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flash_chat/routes/submit_otp.dart';
+import 'package:flash_chat/routes/user_profile.dart';
 import 'package:flutter/material.dart';
 import 'package:rflutter_alert/rflutter_alert.dart';
 
@@ -14,13 +15,13 @@ class PhoneAuthentication {
       print('login');
       await FirebaseAuth.instance
           .signInWithCredential(phoneAuthCredential)
-          .then((AuthResult authRes) {
+          .then((authRes) {
         print(authRes.user.toString());
       });
       _forceResendingToken = null;
       verificationId = null;
       Navigator.of(context).pushNamedAndRemoveUntil(
-          ChatScreen.id, (Route<dynamic> route) => false);
+          UserProfile.id, (Route<dynamic> route) => false);
     } catch (e) {
       print(e.toString());
     }
@@ -30,12 +31,12 @@ class PhoneAuthentication {
       BuildContext context, String phoneNumber, int resendOTPtimeout) async {
     phoneNumber = '+91' + phoneNumber;
 
-    void verificationCompleted(AuthCredential phoneAuthCredential) {
+    void verificationCompleted(PhoneAuthCredential phoneAuthCredential) {
       print('verificationCompleted');
       login(context, phoneAuthCredential);
     }
 
-    void verificationFailed(AuthException error) {
+    void verificationFailed(FirebaseException error) {
       print('verificationFailed');
       print(error);
       Alert(

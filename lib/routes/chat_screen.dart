@@ -3,7 +3,6 @@ import 'package:flash_chat/components/message_bubble.dart';
 import 'package:flash_chat/components/round_icon_button.dart';
 import 'package:flash_chat/global.dart';
 import 'package:flash_chat/routes/verification.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
@@ -17,14 +16,13 @@ class ChatScreen extends StatefulWidget {
 class _ChatScreenState extends State<ChatScreen> {
   final messageController = TextEditingController();
   String messageText;
-  final _firestore = Firestore.instance;
+  final _firestore = FirebaseFirestore.instance;
   final _auth = FirebaseAuth.instance;
-  var docId;
 
   var loggedInUser;
 
-  void getCurrentUser() async {
-    loggedInUser = await _auth.currentUser();
+  void getCurrentUser() {
+    loggedInUser = _auth.currentUser;
     setState(() {});
   }
 
@@ -64,20 +62,21 @@ class _ChatScreenState extends State<ChatScreen> {
                   .snapshots(),
               builder: (context, snapshot) {
                 if (!snapshot.hasData) {
-                  return Center(
-                    child: CircularProgressIndicator(
-                      backgroundColor: kPrimaryColor,
+                  return Expanded(
+                    child: Center(
+                      child: CircularProgressIndicator(
+                        backgroundColor: kPrimaryColor,
+                      ),
                     ),
                   );
                 }
-                final messages = snapshot.data.documents.reversed;
+                final messages = snapshot.data.docs.reversed;
                 List<MessageBubble> messageBubbles = [];
                 for (var message in messages) {
-                  docId = message.documentID;
                   var newMessage = MessageBubble(
-                    text: message.data['text'],
-                    isMe: loggedInUser.displayName == message.data['name'],
-                    sender: message.data['name'],
+                    text: message.get('text'),
+                    isMe: loggedInUser.displayName == message.get('name'),
+                    sender: message.get('name'),
                   );
                   messageBubbles.add(newMessage);
                 }

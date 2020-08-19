@@ -96,7 +96,7 @@ class _SubmitOTPState extends State<SubmitOTP>
       if (_otp == null &&
           _otp.length != 6 &&
           !_otp.contains(RegExp(r'^[0-9]+$'))) throw 'Invalid OTP entered.';
-      _phoneAuthCredential = PhoneAuthProvider.getCredential(
+      _phoneAuthCredential = PhoneAuthProvider.credential(
           verificationId: PhoneAuthentication.verificationId, smsCode: _otp);
       setState(() {
         isWaiting = true;

@@ -20,8 +20,9 @@ class _WelcomeScreen2State extends State<WelcomeScreen2>
   final _auth = FirebaseAuth.instance;
   var user;
 
-  void getCurrentUser() async {
-    user = await _auth.currentUser();
+  void getCurrentUser() {
+    user = _auth.currentUser;
+    setState(() {});
   }
 
   @override

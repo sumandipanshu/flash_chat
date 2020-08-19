@@ -21,12 +21,9 @@ class _VerificationState extends State<Verification> {
           phoneNumber.length != 10 ||
           !phoneNumber.contains(RegExp(r'^[0-9]+$')))
         throw 'Enter a valid Phone number';
-      print('start');
       setState(() {
         isWaiting = true;
       });
-      print('start2');
-      await Future.delayed(Duration(milliseconds: 30));
       await PhoneAuthentication.submitPhoneNumber(
           context, phoneNumber, resendOTPtimeout);
     } catch (e) {
@@ -65,12 +62,12 @@ class _VerificationState extends State<Verification> {
               maxLength: 10,
               textAlign: TextAlign.center,
               decoration: kTextInputDecoration.copyWith(
-                fillColor: Colors.red.withOpacity(0.35),
-                filled: error,
                 hintText: error
                     ? 'Enter a valid Phone number'
                     : 'Enter your Phone number',
                 counterText: '',
+                fillColor: Colors.red.withOpacity(0.35),
+                filled: error,
                 enabledBorder: OutlineInputBorder(
                   borderSide: BorderSide(
                       width: 1, color: error ? Colors.red : kPrimaryColor),
