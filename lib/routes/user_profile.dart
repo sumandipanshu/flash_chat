@@ -1,12 +1,12 @@
 import 'dart:io';
 
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flash_chat/components/rounded_button.dart';
 import 'package:flash_chat/global.dart';
 import 'package:flash_chat/routes/chat_screen.dart';
+import 'package:flash_chat/services/image_toolkit.dart';
+import 'package:flash_chat/services/storage.dart';
 import 'package:flutter/material.dart';
-import 'package:image_cropper/image_cropper.dart';
 import 'package:image_picker/image_picker.dart';
 
 class UserProfile extends StatefulWidget {
@@ -21,67 +21,22 @@ class _UserProfileState extends State<UserProfile> {
   bool error = false, uploading = false, isWaiting = false;
   File _imageFile;
   final User _user = FirebaseAuth.instance.currentUser;
+  ImageToolkit imageToolkit = ImageToolkit();
+  Storage storage = Storage();
 
-  Future<void> _startUpload() async {
-    final FirebaseStorage _storage =
-        FirebaseStorage(storageBucket: 'gs://flash-chat-177ef.appspot.com');
-    StorageUploadTask _uploadTask;
-    String filePath = 'profilePic/${_user.phoneNumber}.png';
-
+  void chooseImage(ImageSource source) async {
     try {
+      imageToolkit.pickImage(source);
       setState(() {
-        _uploadTask = _storage.ref().child(filePath).putFile(_imageFile);
+        _imageFile = imageToolkit.imageFile;
       });
-      await _uploadTask.onComplete;
-      print('File Uploaded');
-      _storage.ref().child(filePath).getDownloadURL().then((fileURL) {
-        setState(() {
-          _photoURL = fileURL;
-          print(_photoURL);
-        });
-      });
-    } catch (e) {
-      print(e);
-    }
-  }
-
-  Future<void> _cropImage() async {
-    File cropped = await ImageCropper.cropImage(
-      sourcePath: _imageFile.path,
-      maxWidth: 512,
-      maxHeight: 512,
-      aspectRatio: CropAspectRatio(ratioX: 1, ratioY: 1),
-      compressFormat: ImageCompressFormat.png,
-      androidUiSettings: AndroidUiSettings(
-        toolbarColor: Colors.purple,
-        toolbarWidgetColor: Colors.white,
-        toolbarTitle: 'Crop It',
-        lockAspectRatio: false,
-      ),
-    );
-    setState(() {
-      _imageFile = cropped;
-    });
-  }
-
-  Future<void> _pickImage(ImageSource source) async {
-    try {
-      // ignore: deprecated_member_use
-      File selected = await ImagePicker.pickImage(source: source);
-
-      setState(() {
-        _imageFile = selected;
-      });
-      if (_imageFile != null) {
-        await _cropImage();
-      }
       if (_imageFile != null) {
         print(_imageFile);
 
         setState(() {
           uploading = true;
         });
-        await _startUpload();
+        await storage.uploadPhoto(_imageFile, _user);
         setState(() {
           uploading = false;
         });
@@ -312,29 +267,9 @@ class _UserProfileState extends State<UserProfile> {
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-//                  GestureDetector(
-//                    onTap: null,
-//                    child: Container(
-//                      width: 60,
-//                      child: Column(
-//                        crossAxisAlignment: CrossAxisAlignment.stretch,
-//                        children: [
-//                          Image.asset(
-//                            'images/delete.png',
-//                            width: 60,
-//                            height: 60,
-//                          ),
-//                          Text(
-//                            'Remove\nphoto',
-//                            textAlign: TextAlign.center,
-//                          ),
-//                        ],
-//                      ),
-//                    ),
-//                  ),
                   GestureDetector(
                     onTap: () {
-                      _pickImage(ImageSource.gallery);
+                      chooseImage(ImageSource.gallery);
                       Navigator.pop(context);
                     },
                     child: Container(
@@ -360,7 +295,7 @@ class _UserProfileState extends State<UserProfile> {
                   ),
                   GestureDetector(
                     onTap: () {
-                      _pickImage(ImageSource.camera);
+                      chooseImage(ImageSource.camera);
                       Navigator.pop(context);
                     },
                     child: Container(

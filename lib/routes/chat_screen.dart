@@ -18,11 +18,10 @@ class _ChatScreenState extends State<ChatScreen> {
   String messageText;
   final _firestore = FirebaseFirestore.instance;
   final _auth = FirebaseAuth.instance;
-
-  var loggedInUser;
+  User _user;
 
   void getCurrentUser() {
-    loggedInUser = _auth.currentUser;
+    _user = _auth.currentUser;
     setState(() {});
   }
 
@@ -75,7 +74,7 @@ class _ChatScreenState extends State<ChatScreen> {
                 for (var message in messages) {
                   var newMessage = MessageBubble(
                     text: message.get('text'),
-                    isMe: loggedInUser.displayName == message.get('name'),
+                    isMe: _user.displayName == message.get('name'),
                     sender: message.get('name'),
                   );
                   messageBubbles.add(newMessage);
@@ -122,8 +121,8 @@ class _ChatScreenState extends State<ChatScreen> {
                       messageController.clear();
                       _firestore.collection('messages').add({
                         'text': messageText,
-                        'name': loggedInUser.displayName,
-                        'timestamp': Timestamp.fromDate(DateTime.now()).seconds,
+                        'name': _user.displayName,
+                        'timestamp': Timestamp.now().millisecondsSinceEpoch,
                       });
                     },
                   ),
