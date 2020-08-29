@@ -15,4 +15,6 @@ const kTextInputDecoration = InputDecoration(
   ),
 );
 
-const logoImage = 'images/logo.png';
+const logoImage = 'assets/images/logo.png';
+const IconData sticker =
+    IconData(0xe800, fontFamily: 'Sticker', fontPackage: null);

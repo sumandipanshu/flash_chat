@@ -31,4 +31,13 @@ flutter:
 
   uses-material-design: true
   assets:
-    - images/
+    - assets/images/
+    - assets/stickers/ben/
+    - assets/stickers/cute-couple/
+    - assets/stickers/little-girl/
+    - assets/stickers/milk&mocha/
+
+  fonts:
+     - family:  Sticker
+       fonts:
+        - asset: assets/stickers/fonts/Sticker.ttf

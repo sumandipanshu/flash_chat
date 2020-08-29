@@ -100,7 +100,7 @@ class _UserProfileState extends State<UserProfile> {
                         child: ClipRRect(
                           child: _photoURL == null
                               ? Image.asset(
-                                  'images/user.png',
+                                  'assets/images/user.png',
                                   fit: BoxFit.contain,
                                 )
                               : Image.network(
@@ -278,7 +278,7 @@ class _UserProfileState extends State<UserProfile> {
                         crossAxisAlignment: CrossAxisAlignment.stretch,
                         children: [
                           Image.asset(
-                            'images/gallery.png',
+                            'assets/images/gallery.png',
                             width: 60,
                             height: 60,
                           ),
@@ -304,7 +304,7 @@ class _UserProfileState extends State<UserProfile> {
                         crossAxisAlignment: CrossAxisAlignment.stretch,
                         children: [
                           Image.asset(
-                            'images/camera.png',
+                            'assets/images/camera.png',
                             width: 60,
                             height: 60,
                           ),
