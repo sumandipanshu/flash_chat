@@ -1,9 +1,8 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:flash_chat/components/message_bubble.dart';
+import 'package:flash_chat/components/chat_bubble.dart';
 import 'package:flash_chat/components/round_icon_button.dart';
 import 'package:flash_chat/global.dart';
 import 'package:flash_chat/routes/verification.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -107,56 +106,59 @@ class _ChatScreenState extends State<ChatScreen> {
             Expanded(
               child: ListView(
                 controller: scrollController,
-                padding: EdgeInsets.fromLTRB(20, 10, 10, 0),
+                padding: EdgeInsets.fromLTRB(10, 10, 10, 0),
                 scrollDirection: Axis.vertical,
 //                reverse: true,
                 children: [
-                  Message.text(
-                    text: 'hey there! how are you?',
+                  ChatBubble.sticker(
+                    context: context,
+                    stickerURL: 'assets/stickers/ben/ben (1).png',
                     isMe: true,
-                    lastMessage: false,
+                    isFirstMessage: true,
                   ),
-                  Message.image(
-                    imageURL: 'assets/images/user.png',
+                  ChatBubble.sticker(
+                    context: context,
+                    stickerURL: 'assets/stickers/ben/ben (1).png',
                     isMe: true,
-                    lastMessage: false,
+                    isFirstMessage: false,
                   ),
-                  Message.text(
-                    text: 'hey there! how are you?',
+                  ChatBubble.sticker(
+                    context: context,
+                    stickerURL: 'assets/stickers/ben/ben (1).png',
                     isMe: true,
-                    lastMessage: true,
+                    isFirstMessage: false,
                   ),
-                  Message.text(
-                    text: 'hey there! how are you?',
+                  ChatBubble.sticker(
+                    context: context,
+                    stickerURL: 'assets/stickers/ben/ben (1).png',
                     isMe: false,
-                    lastMessage: false,
+                    isFirstMessage: true,
                   ),
-                  Message.text(
-                    text: 'hey there! how are you?',
+                  ChatBubble.sticker(
+                    context: context,
+                    stickerURL: 'assets/stickers/ben/ben (1).png',
                     isMe: false,
-                    lastMessage: true,
+                    isFirstMessage: false,
                   ),
-                  Message.text(
-                    text: 'hey there! how are you?hey te! how are you?',
-                    isMe: true,
-                    lastMessage: true,
-                  ),
-                  Message.text(
-                    text:
-                        'hey there! how are you?hey there! how are you?hey there! how are you?hey there! how are you?hey there! how are you?hey there! how are you?hey there! how are you?hey there! how are you?hey there! how are you?hey there! how are you?hey there! how are you?',
+                  ChatBubble.text(
+                    context: context,
+                    messageText:
+                        "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
                     isMe: false,
-                    lastMessage: true,
+                    isFirstMessage: false,
                   ),
-                  Message.text(
-                    text: 'hey there! how are you?',
+                  ChatBubble.text(
+                    context: context,
+                    messageText:
+                        "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
                     isMe: true,
-                    lastMessage: true,
+                    isFirstMessage: true,
                   ),
                 ],
               ),
             ),
             Container(
-              padding: EdgeInsets.fromLTRB(10, 10, 10, 5),
+              padding: EdgeInsets.fromLTRB(10, 8, 10, 5),
               color: Colors.transparent,
               child: Row(
                 children: [
@@ -169,13 +171,18 @@ class _ChatScreenState extends State<ChatScreen> {
                       ),
                       child: Row(
                         children: [
-                          Container(
-                            width: 50,
-                            height: 50,
-                            child: Icon(
-                              sticker,
-                              color: Colors.blueGrey,
-                              size: 28,
+                          GestureDetector(
+                            onTap: () {
+                              print('tap');
+                            },
+                            child: Container(
+                              width: 45,
+                              height: 50,
+                              child: Icon(
+                                sticker,
+                                color: Colors.blueGrey,
+                                size: 28,
+                              ),
                             ),
                           ),
                           Expanded(
@@ -196,31 +203,39 @@ class _ChatScreenState extends State<ChatScreen> {
                               },
                             ),
                           ),
-                          PopupMenuButton(
-                            itemBuilder: (context) => [
-                              PopupMenuItem(
-                                value: 1,
-                                child: Text("First"),
-                              ),
-                              PopupMenuItem(
-                                value: 2,
-                                child: Text("Second"),
-                              ),
-                            ],
-                            icon: Icon(
-                              FontAwesomeIcons.images,
-                              color: Colors.blueGrey,
-                            ),
-                            onSelected: (value) {
-                              print(value);
+                          GestureDetector(
+                            behavior: HitTestBehavior.translucent,
+                            onTap: () {
+                              print('tap');
+                              FocusScope.of(context)
+                                  .requestFocus(messageFocusNode);
                             },
+                            child: PopupMenuButton(
+                              itemBuilder: (context) => [
+                                PopupMenuItem(
+                                  value: 1,
+                                  child: Text("First"),
+                                ),
+                                PopupMenuItem(
+                                  value: 2,
+                                  child: Text("Second"),
+                                ),
+                              ],
+                              icon: Icon(
+                                FontAwesomeIcons.images,
+                                color: Colors.blueGrey,
+                              ),
+                              onSelected: (value) {
+                                print(value);
+                              },
+                            ),
                           ),
                         ],
                       ),
                     ),
                   ),
                   SizedBox(
-                    width: 10,
+                    width: 3,
                   ),
                   RoundIconButton(
                     icon: Icons.send,
