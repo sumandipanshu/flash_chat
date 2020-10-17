@@ -39,4 +39,89 @@ class ImageToolkit {
       print(e);
     }
   }
+
+  void showMenu({BuildContext context, Function chooseImage}) {
+    showModalBottomSheet(
+      context: context,
+      builder: (BuildContext context) {
+        return Container(
+          padding: EdgeInsets.all(15),
+          height: 200,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
+              Padding(
+                padding: EdgeInsets.fromLTRB(8, 10, 0, 0),
+                child: Text(
+                  'Choose photo',
+                  style: TextStyle(
+                    fontSize: 22,
+                  ),
+                ),
+              ),
+              SizedBox(
+                height: 20,
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  GestureDetector(
+                    onTap: () {
+                      chooseImage(ImageSource.gallery);
+                      Navigator.pop(context);
+                    },
+                    child: Container(
+                      width: 60,
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.stretch,
+                        children: [
+                          Image.asset(
+                            'assets/images/gallery.png',
+                            width: 60,
+                            height: 60,
+                          ),
+                          Padding(
+                            padding: EdgeInsets.only(left: 4.0),
+                            child: Text(
+                              'Gallery',
+                              textAlign: TextAlign.start,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                  GestureDetector(
+                    onTap: () {
+                      chooseImage(ImageSource.camera);
+                      Navigator.pop(context);
+                    },
+                    child: Container(
+                      width: 60,
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.stretch,
+                        children: [
+                          Image.asset(
+                            'assets/images/camera.png',
+                            width: 60,
+                            height: 60,
+                          ),
+                          Text(
+                            'Camera',
+                            textAlign: TextAlign.center,
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                ],
+              )
+            ],
+          ),
+        );
+      },
+      useRootNavigator: true,
+    );
+  }
 }

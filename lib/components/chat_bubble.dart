@@ -13,8 +13,16 @@ class ChatBubble {
       margin: EdgeInsets.only(
         top: isFirstMessage ? 20 : 0,
         bottom: 10,
-        left: isMe ? 0 : isFirstMessage ? 0 : 15,
-        right: isMe ? isFirstMessage ? 0 : 15 : 0,
+        left: isMe
+            ? 0
+            : isFirstMessage
+                ? 0
+                : 15,
+        right: isMe
+            ? isFirstMessage
+                ? 0
+                : 15
+            : 0,
       ),
       child: PhysicalShape(
         clipper: isFirstMessage
@@ -29,16 +37,31 @@ class ChatBubble {
           padding: EdgeInsets.only(
               top: 10,
               bottom: 10,
-              left: isMe ? 10 : isFirstMessage ? 25 : 10,
-              right: isMe ? isFirstMessage ? 20 : 10 : 5),
+              left: isMe
+                  ? 10
+                  : isFirstMessage
+                      ? 25
+                      : 10,
+              right: isMe
+                  ? isFirstMessage
+                      ? 25
+                      : 10
+                  : 5),
           child: Container(
             constraints: BoxConstraints(
               maxWidth: MediaQuery.of(context).size.width *
-                  (isMe ? isFirstMessage ? 0.65 : 0.64 : 0.65),
+                  (isMe
+                      ? isFirstMessage
+                          ? 0.65
+                          : 0.64
+                      : 0.65),
             ),
             child: Text(
               messageText,
-              style: TextStyle(color: isMe ? Colors.white : Colors.black),
+              style: TextStyle(
+                color: isMe ? Colors.white : Colors.black,
+                fontSize: 16,
+              ),
             ),
           ),
         ),
@@ -57,8 +80,16 @@ class ChatBubble {
       margin: EdgeInsets.only(
         top: isFirstMessage ? 20 : 0,
         bottom: 10,
-        left: isMe ? 0 : isFirstMessage ? 0 : 15,
-        right: isMe ? isFirstMessage ? 0 : 15 : 0,
+        left: isMe
+            ? 0
+            : isFirstMessage
+                ? 0
+                : 15,
+        right: isMe
+            ? isFirstMessage
+                ? 0
+                : 15
+            : 0,
       ),
       child: PhysicalShape(
         clipper: isFirstMessage
@@ -73,13 +104,21 @@ class ChatBubble {
           padding: EdgeInsets.only(
               top: 10,
               bottom: 5,
-              left: isMe ? 5 : isFirstMessage ? 20 : 5,
-              right: isMe ? isFirstMessage ? 20 : 5 : 5),
+              left: isMe
+                  ? 5
+                  : isFirstMessage
+                      ? 20
+                      : 5,
+              right: isMe
+                  ? isFirstMessage
+                      ? 20
+                      : 5
+                  : 5),
           child: Container(
             constraints: BoxConstraints(
               maxWidth: MediaQuery.of(context).size.width * 0.6,
             ),
-            child: Image.asset(
+            child: Image.network(
               imageURL,
               fit: BoxFit.fitWidth,
             ),
@@ -100,8 +139,16 @@ class ChatBubble {
       margin: EdgeInsets.only(
         top: isFirstMessage ? 20 : 0,
         bottom: 10,
-        left: isMe ? 0 : isFirstMessage ? 0 : 15,
-        right: isMe ? isFirstMessage ? 0 : 15 : 0,
+        left: isMe
+            ? 0
+            : isFirstMessage
+                ? 0
+                : 15,
+        right: isMe
+            ? isFirstMessage
+                ? 0
+                : 15
+            : 0,
       ),
       child: PhysicalShape(
         clipper: isFirstMessage
@@ -116,8 +163,16 @@ class ChatBubble {
           padding: EdgeInsets.only(
               top: 10,
               bottom: 5,
-              left: isMe ? 5 : isFirstMessage ? 20 : 5,
-              right: isMe ? isFirstMessage ? 20 : 5 : 5),
+              left: isMe
+                  ? 5
+                  : isFirstMessage
+                      ? 20
+                      : 5,
+              right: isMe
+                  ? isFirstMessage
+                      ? 20
+                      : 5
+                  : 5),
           child: Container(
             decoration: BoxDecoration(
               color: Colors.white,
