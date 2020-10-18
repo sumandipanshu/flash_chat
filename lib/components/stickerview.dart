@@ -76,6 +76,12 @@ class _StickerViewState extends State<StickerView>
                         'data': ben[index],
                         'timestamp': Timestamp.now().millisecondsSinceEpoch,
                       });
+                      Future.delayed(Duration(milliseconds: 100), () {
+                        widget.scrollController.animateTo(
+                            widget.scrollController.position.minScrollExtent,
+                            curve: Curves.ease,
+                            duration: Duration(milliseconds: 500));
+                      });
                     },
                     child: Image.asset(ben[index]),
                   );
@@ -86,17 +92,17 @@ class _StickerViewState extends State<StickerView>
                 children: List.generate(40, (index) {
                   return GestureDetector(
                     onTap: () {
-                      Future.delayed(Duration(milliseconds: 100), () {
-                        widget.scrollController.animateTo(
-                            widget.scrollController.position.minScrollExtent,
-                            curve: Curves.ease,
-                            duration: Duration(milliseconds: 500));
-                      });
                       widget.firestore.collection('messages').add({
                         'type': 'sticker',
                         'uid': widget.user.uid,
                         'data': cute_couple[index],
                         'timestamp': Timestamp.now().millisecondsSinceEpoch,
+                      });
+                      Future.delayed(Duration(milliseconds: 100), () {
+                        widget.scrollController.animateTo(
+                            widget.scrollController.position.minScrollExtent,
+                            curve: Curves.ease,
+                            duration: Duration(milliseconds: 500));
                       });
                     },
                     child: Image.asset(cute_couple[index]),
@@ -108,17 +114,17 @@ class _StickerViewState extends State<StickerView>
                 children: List.generate(40, (index) {
                   return GestureDetector(
                     onTap: () {
-                      Future.delayed(Duration(milliseconds: 100), () {
-                        widget.scrollController.animateTo(
-                            widget.scrollController.position.minScrollExtent,
-                            curve: Curves.ease,
-                            duration: Duration(milliseconds: 500));
-                      });
                       widget.firestore.collection('messages').add({
                         'type': 'sticker',
                         'uid': widget.user.uid,
                         'data': little_girl[index],
                         'timestamp': Timestamp.now().millisecondsSinceEpoch,
+                      });
+                      Future.delayed(Duration(milliseconds: 100), () {
+                        widget.scrollController.animateTo(
+                            widget.scrollController.position.minScrollExtent,
+                            curve: Curves.ease,
+                            duration: Duration(milliseconds: 500));
                       });
                     },
                     child: Image.asset(little_girl[index]),
@@ -130,17 +136,17 @@ class _StickerViewState extends State<StickerView>
                 children: List.generate(40, (index) {
                   return GestureDetector(
                     onTap: () {
-                      Future.delayed(Duration(milliseconds: 100), () {
-                        widget.scrollController.animateTo(
-                            widget.scrollController.position.minScrollExtent,
-                            curve: Curves.ease,
-                            duration: Duration(milliseconds: 500));
-                      });
                       widget.firestore.collection('messages').add({
                         'type': 'sticker',
                         'uid': widget.user.uid,
                         'data': milk_mocha[index],
                         'timestamp': Timestamp.now().millisecondsSinceEpoch,
+                      });
+                      Future.delayed(Duration(milliseconds: 100), () {
+                        widget.scrollController.animateTo(
+                            widget.scrollController.position.minScrollExtent,
+                            curve: Curves.ease,
+                            duration: Duration(milliseconds: 500));
                       });
                     },
                     child: Image.asset(milk_mocha[index]),

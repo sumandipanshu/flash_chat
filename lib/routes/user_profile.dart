@@ -1,9 +1,9 @@
 import 'dart:io';
-
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flash_chat/components/rounded_button.dart';
 import 'package:flash_chat/global.dart';
-import 'package:flash_chat/routes/chat_screen.dart';
+import 'package:flash_chat/routes/home.dart';
 import 'package:flash_chat/services/image_toolkit.dart';
 import 'package:flash_chat/services/storage.dart';
 import 'package:flutter/material.dart';
@@ -23,10 +23,11 @@ class _UserProfileState extends State<UserProfile> {
   final User _user = FirebaseAuth.instance.currentUser;
   ImageToolkit imageToolkit = ImageToolkit();
   Storage storage = Storage();
+  final _firestore = FirebaseFirestore.instance;
 
   void chooseImage(ImageSource source) async {
     try {
-      imageToolkit.pickImage(source);
+      await imageToolkit.pickImage(source);
       setState(() {
         _imageFile = imageToolkit.imageFile;
       });
@@ -59,10 +60,16 @@ class _UserProfileState extends State<UserProfile> {
         isWaiting = true;
       });
       await _user.updateProfile(displayName: _displayName, photoURL: _photoURL);
+      await _firestore.collection('users').doc(_user.uid).set({
+        'name': _displayName,
+        'uid': _user.uid,
+        'photoURL': _photoURL,
+        'timestamp': Timestamp.now().millisecondsSinceEpoch,
+      }, SetOptions(merge: true));
       setState(() {
         isWaiting = false;
       });
-      Navigator.pushReplacementNamed(context, ChatScreen.id);
+      Navigator.pushReplacementNamed(context, Home.id);
     } catch (e) {
       print(e);
       setState(() {

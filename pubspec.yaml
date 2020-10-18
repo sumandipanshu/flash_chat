@@ -15,20 +15,19 @@ dependencies:
   rflutter_alert: ^1.0.3
   cupertino_icons: ^0.1.3
   firebase_auth: ^0.18.0
-  cloud_firestore:  ^0.14.0
+  cloud_firestore: ^0.14.0
   firebase_core: ^0.5.0
   firebase_storage: ^4.0.0
   image_picker: ^0.6.7+4
   image_cropper: ^1.3.0
   font_awesome_flutter: ^8.8.1
+  cached_network_image: ^2.3.3
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
 
 flutter:
-
-
   uses-material-design: true
   assets:
     - assets/images/
@@ -38,6 +37,6 @@ flutter:
     - assets/stickers/milk&mocha/
 
   fonts:
-     - family:  Sticker
-       fonts:
+    - family: Sticker
+      fonts:
         - asset: assets/stickers/fonts/Sticker.ttf

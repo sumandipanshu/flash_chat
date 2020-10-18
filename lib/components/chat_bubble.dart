@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flash_chat/global.dart';
 import 'package:flutter/material.dart';
 
@@ -117,10 +118,19 @@ class ChatBubble {
           child: Container(
             constraints: BoxConstraints(
               maxWidth: MediaQuery.of(context).size.width * 0.6,
+              maxHeight: MediaQuery.of(context).size.height * 0.3,
             ),
-            child: Image.network(
-              imageURL,
+            child: CachedNetworkImage(
+              imageUrl: imageURL,
               fit: BoxFit.fitWidth,
+              progressIndicatorBuilder: (context, url, downloadProgress) =>
+                  Container(
+                      width: 512,
+                      height: 512,
+                      child: Center(
+                          child: CircularProgressIndicator(
+                              value: downloadProgress.progress))),
+              errorWidget: (context, url, error) => Icon(Icons.error),
             ),
           ),
         ),

@@ -29,9 +29,11 @@ class ImageToolkit {
 
   Future<void> pickImage(ImageSource source) async {
     try {
-      // ignore: deprecated_member_use
-      File selected = await ImagePicker.pickImage(source: source);
-      _imageFile = selected;
+      ImagePicker imagePicker = ImagePicker();
+      PickedFile pickedFile;
+
+      pickedFile = await imagePicker.getImage(source: ImageSource.gallery);
+      _imageFile = File(pickedFile.path);
       if (_imageFile != null) {
         await cropImage();
       }

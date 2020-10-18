@@ -1,13 +1,13 @@
 import 'package:animated_text_kit/animated_text_kit.dart';
-import 'package:flash_chat/components/rounded_button.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flash_chat/global.dart';
-import 'package:flash_chat/routes/login_screen.dart';
-import 'package:flash_chat/routes/registration_screen.dart';
+import 'package:flash_chat/routes/home.dart';
+import 'package:flash_chat/routes/verification.dart';
 import 'package:flutter/material.dart';
 import 'dart:core';
 
 class WelcomeScreen extends StatefulWidget {
-  static String id = 'welcome';
+  static const String id = 'welcome2';
 
   @override
   _WelcomeScreenState createState() => _WelcomeScreenState();
@@ -17,11 +17,18 @@ class _WelcomeScreenState extends State<WelcomeScreen>
     with SingleTickerProviderStateMixin {
   AnimationController controller;
   Animation animation;
+  final _auth = FirebaseAuth.instance;
+  var user;
+
+  void getCurrentUser() {
+    user = _auth.currentUser;
+    setState(() {});
+  }
 
   @override
   void initState() {
     super.initState();
-
+    getCurrentUser();
     controller =
         AnimationController(duration: Duration(seconds: 1), vsync: this);
     animation = ColorTween(begin: Colors.blueGrey, end: Colors.white)
@@ -48,54 +55,35 @@ class _WelcomeScreenState extends State<WelcomeScreen>
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            Row(
-              children: [
-                Hero(
-                  tag: 'logo',
-                  child: Container(
-                    child: Image.asset(
-                      logoImage,
-                    ),
-                    height: 60,
-                  ),
+            Hero(
+              tag: 'logo',
+              child: Container(
+                child: Image.asset(
+                  logoImage,
                 ),
-                TypewriterAnimatedTextKit(
-                  speed: Duration(milliseconds: 500),
-                  text: ['Flash Chat'],
-                  textStyle: TextStyle(
-                    fontSize: 45,
-                    fontWeight: FontWeight.w900,
-                  ),
-                ),
-              ],
-            ),
-            SizedBox(
-              height: 48,
-            ),
-            Padding(
-              padding: EdgeInsets.symmetric(vertical: 16.0),
-              child: Hero(
-                tag: 'login',
-                child: RoundedButton(
-                  text: 'Log In',
-                  color: kPrimaryColor,
-                  onPressed: () {
-                    Navigator.pushNamed(context, LoginScreen.id);
-                  },
-                ),
+                height: 200,
               ),
             ),
+            SizedBox(
+              height: 30,
+            ),
             Padding(
-              padding: EdgeInsets.symmetric(vertical: 16.0),
-              child: Hero(
-                tag: 'register',
-                child: RoundedButton(
-                  text: 'Register',
-                  color: kSecondaryColor,
-                  onPressed: () {
-                    Navigator.pushNamed(context, RegistrationScreen.id);
-                  },
+              padding: const EdgeInsets.only(left: 40),
+              child: TypewriterAnimatedTextKit(
+                speed: Duration(milliseconds: 300),
+                text: ['Flash Chat'],
+                totalRepeatCount: 1,
+                textStyle: TextStyle(
+                  fontSize: 45,
+                  fontWeight: FontWeight.w900,
                 ),
+                onFinished: () {
+                  if (user != null) {
+                    Navigator.pushReplacementNamed(context, Home.id);
+                  } else {
+                    Navigator.pushReplacementNamed(context, Verification.id);
+                  }
+                },
               ),
             ),
           ],

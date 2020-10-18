@@ -1,14 +1,17 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flash_chat/routes/chat_screen.dart';
+import 'package:flash_chat/routes/home.dart';
 import 'package:flash_chat/routes/submit_otp.dart';
 import 'package:flash_chat/routes/user_profile.dart';
 import 'package:flash_chat/routes/verification.dart';
-import 'package:flash_chat/routes/welcome_screen2.dart';
+import 'package:flash_chat/routes/welcome_screen.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
+  FirebaseFirestore.instance.settings = Settings(persistenceEnabled: false);
   runApp(FlashChat());
 }
 
@@ -22,11 +25,11 @@ class FlashChat extends StatelessWidget {
       },
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
-        home: WelcomeScreen2(),
+        home: WelcomeScreen(),
         onGenerateRoute: (RouteSettings settings) {
           switch (settings.name) {
-            case WelcomeScreen2.id:
-              return MaterialPageRoute(builder: (context) => WelcomeScreen2());
+            case WelcomeScreen.id:
+              return MaterialPageRoute(builder: (context) => WelcomeScreen());
               break;
             case Verification.id:
               return MaterialPageRoute(builder: (context) => Verification());
@@ -43,11 +46,14 @@ class FlashChat extends StatelessWidget {
             case UserProfile.id:
               return MaterialPageRoute(builder: (context) => UserProfile());
               break;
+            case Home.id:
+              return MaterialPageRoute(builder: (context) => Home());
+              break;
             case ChatScreen.id:
               return MaterialPageRoute(builder: (context) => ChatScreen());
               break;
             default:
-              return MaterialPageRoute(builder: (context) => WelcomeScreen2());
+              return MaterialPageRoute(builder: (context) => WelcomeScreen());
               break;
           }
         },
