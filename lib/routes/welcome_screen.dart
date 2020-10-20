@@ -47,6 +47,7 @@ class _WelcomeScreenState extends State<WelcomeScreen>
 
   @override
   Widget build(BuildContext context) {
+    var screenWidth = MediaQuery.of(context).size.width;
     return Scaffold(
       backgroundColor: animation.value,
       body: Padding(
@@ -68,7 +69,7 @@ class _WelcomeScreenState extends State<WelcomeScreen>
               height: 30,
             ),
             Padding(
-              padding: const EdgeInsets.only(left: 40),
+              padding: EdgeInsets.only(left: screenWidth * 0.1),
               child: TypewriterAnimatedTextKit(
                 speed: Duration(milliseconds: 300),
                 text: ['Flash Chat'],

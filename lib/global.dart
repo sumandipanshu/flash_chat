@@ -190,3 +190,15 @@ const milk_mocha = [
   'assets/stickers/milk&mocha/milk&mocha (8).png',
   'assets/stickers/milk&mocha/milk&mocha (9).png'
 ];
+
+const mimi = [
+  'assets/stickers/mimi/mimi1.gif',
+  'assets/stickers/mimi/mimi2.gif',
+  'assets/stickers/mimi/mimi3.gif',
+  'assets/stickers/mimi/mimi4.gif',
+  'assets/stickers/mimi/mimi5.gif',
+  'assets/stickers/mimi/mimi6.gif',
+  'assets/stickers/mimi/mimi7.gif',
+  'assets/stickers/mimi/mimi8.gif',
+  'assets/stickers/mimi/mimi9.gif'
+];

@@ -20,11 +20,12 @@ class Storage {
     return fileURL;
   }
 
-  Future<String> uploadPhoto(File imageFile, String chatId) async {
+  Future<String> uploadPhoto(
+      File imageFile, String chatId, String sender) async {
     final FirebaseStorage _storage =
         FirebaseStorage(storageBucket: 'gs://flash-chat-177ef.appspot.com');
     StorageUploadTask _uploadTask;
-    String filePath = 'chatUploads/$chatId/${DateTime.now()}.png';
+    String filePath = 'chatUploads/$chatId/$sender-${DateTime.now()}.png';
     String fileURL;
     try {
       _uploadTask = _storage.ref().child(filePath).putFile(imageFile);

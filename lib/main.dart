@@ -50,7 +50,15 @@ class FlashChat extends StatelessWidget {
               return MaterialPageRoute(builder: (context) => Home());
               break;
             case ChatScreen.id:
-              return MaterialPageRoute(builder: (context) => ChatScreen());
+              Map<String, dynamic> args = settings.arguments;
+              return MaterialPageRoute(
+                builder: (context) => ChatScreen(
+                  chatId: args['chatId'],
+                  uid: args['uid'],
+                  peerUid: args['peerUid'],
+                  peerName: args['peerName'],
+                ),
+              );
               break;
             default:
               return MaterialPageRoute(builder: (context) => WelcomeScreen());

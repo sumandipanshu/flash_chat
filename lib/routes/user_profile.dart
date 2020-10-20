@@ -17,13 +17,23 @@ class UserProfile extends StatefulWidget {
 
 class _UserProfileState extends State<UserProfile> {
   FocusNode addPhotoNode = FocusNode();
-  String _displayName, _photoURL;
   bool error = false, uploading = false, isWaiting = false;
   File _imageFile;
   final User _user = FirebaseAuth.instance.currentUser;
   ImageToolkit imageToolkit = ImageToolkit();
   Storage storage = Storage();
   final _firestore = FirebaseFirestore.instance;
+  String _displayName, _photoURL;
+  TextEditingController nameFieldController = TextEditingController();
+
+  void fetchData() {
+    _photoURL = _user.photoURL;
+    _displayName = _user.displayName;
+    if (_displayName != null) {
+      nameFieldController.text = _displayName;
+    }
+    print(_displayName);
+  }
 
   void chooseImage(ImageSource source) async {
     try {
@@ -77,6 +87,12 @@ class _UserProfileState extends State<UserProfile> {
         error = true;
       });
     }
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    fetchData();
   }
 
   @override
@@ -186,6 +202,7 @@ class _UserProfileState extends State<UserProfile> {
             TextField(
               keyboardType: TextInputType.name,
               textAlign: TextAlign.center,
+              controller: nameFieldController,
               decoration: kTextInputDecoration.copyWith(
                 hintText: 'Enter your Display name',
                 fillColor: Colors.red.withOpacity(0.35),

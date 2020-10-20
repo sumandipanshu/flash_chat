@@ -4,16 +4,22 @@ import 'package:flash_chat/components/chat_bubble.dart';
 import 'package:flash_chat/components/round_icon_button.dart';
 import 'package:flash_chat/components/stickerview.dart';
 import 'package:flash_chat/global.dart';
-import 'package:flash_chat/routes/verification.dart';
 import 'package:flash_chat/services/image_toolkit.dart';
 import 'package:flash_chat/services/storage.dart';
 import 'package:flutter/material.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:image_picker/image_picker.dart';
 
 class ChatScreen extends StatefulWidget {
   static const String id = 'chat';
+
+  ChatScreen(
+      {@required this.chatId,
+      @required this.uid,
+      @required this.peerUid,
+      @required this.peerName});
+
+  final String chatId, uid, peerUid, peerName;
 
   @override
   _ChatScreenState createState() => _ChatScreenState();
@@ -24,8 +30,6 @@ class _ChatScreenState extends State<ChatScreen> {
   final messageFocusNode = FocusNode();
   String messageText;
   final _firestore = FirebaseFirestore.instance;
-  final _auth = FirebaseAuth.instance;
-  User _user;
   ScrollController scrollController = ScrollController();
 
   bool isShowSticker = false;
@@ -34,17 +38,13 @@ class _ChatScreenState extends State<ChatScreen> {
 
   File _imageFile;
 
-  void getCurrentUser() {
-    _user = _auth.currentUser;
-    setState(() {});
-  }
-
   void chooseImage(ImageSource source) async {
     try {
       await imageToolkit.pickImage(source);
       setState(() {
         _imageFile = imageToolkit.imageFile;
       });
+      print('file found');
     } catch (e) {
       print(e);
     }
@@ -62,12 +62,6 @@ class _ChatScreenState extends State<ChatScreen> {
   }
 
   @override
-  void initState() {
-    super.initState();
-    getCurrentUser();
-  }
-
-  @override
   void dispose() {
     messageFocusNode.dispose();
     scrollController.dispose();
@@ -82,12 +76,10 @@ class _ChatScreenState extends State<ChatScreen> {
       child: Scaffold(
         appBar: AppBar(
           backgroundColor: kPrimaryColor,
-          title: Text('Chat'),
+          title: Text(widget.peerName),
           leading: IconButton(
-            onPressed: () async {
-              await _auth.signOut();
-              print('signedOut');
-              Navigator.pushReplacementNamed(context, Verification.id);
+            onPressed: () {
+              Navigator.pop(context);
             },
             icon: Icon(
               Icons.arrow_back_ios,
@@ -103,6 +95,8 @@ class _ChatScreenState extends State<ChatScreen> {
               StreamBuilder<QuerySnapshot>(
                 stream: _firestore
                     .collection("messages")
+                    .doc(widget.chatId)
+                    .collection('chats')
                     .orderBy("timestamp")
                     .snapshots(),
                 builder: (context, snapshot) {
@@ -126,27 +120,33 @@ class _ChatScreenState extends State<ChatScreen> {
                       newMessage = ChatBubble.text(
                         context: context,
                         messageText: message.get('data'),
-                        isMe: message.get('uid') == _user.uid,
+                        isMe: message.get('uid') == widget.uid,
                         isFirstMessage: message.get('uid') != lastMessage,
                       );
                     } else if (type == 'image') {
                       newMessage = ChatBubble.image(
                         context: context,
                         imageURL: message.get('data'),
-                        isMe: message.get('uid') == _user.uid,
+                        isMe: message.get('uid') == widget.uid,
                         isFirstMessage: message.get('uid') != lastMessage,
                       );
                     } else {
                       newMessage = ChatBubble.sticker(
                         context: context,
                         stickerURL: message.get('data'),
-                        isMe: message.get('uid') == _user.uid,
+                        isMe: message.get('uid') == widget.uid,
                         isFirstMessage: message.get('uid') != lastMessage,
                       );
                     }
                     lastMessage = message.get('uid');
                     chatBubbles.add(newMessage);
                   }
+                  Future.delayed(Duration(milliseconds: 100), () {
+                    scrollController.animateTo(
+                        scrollController.position.minScrollExtent,
+                        curve: Curves.ease,
+                        duration: Duration(milliseconds: 500));
+                  });
                   return Expanded(
                     child: ListView(
                       controller: scrollController,
@@ -221,13 +221,22 @@ class _ChatScreenState extends State<ChatScreen> {
                                   context: context,
                                   chooseImage: chooseImage,
                                 );
+                                print('reached');
                                 if (_imageFile != null) {
+                                  print('uploading');
                                   final imageUrl = await storage.uploadPhoto(
-                                      imageToolkit.imageFile, 'swas');
+                                    imageToolkit.imageFile,
+                                    widget.chatId,
+                                    widget.uid,
+                                  );
 
-                                  _firestore.collection('messages').add({
+                                  await _firestore
+                                      .collection('messages')
+                                      .doc(widget.chatId)
+                                      .collection('chats')
+                                      .add({
                                     'type': 'image',
-                                    'uid': _user.uid,
+                                    'uid': widget.uid,
                                     'data': imageUrl,
                                     'timestamp':
                                         Timestamp.now().millisecondsSinceEpoch,
@@ -260,15 +269,19 @@ class _ChatScreenState extends State<ChatScreen> {
                     RoundIconButton(
                       icon: Icons.send,
                       fillColor: kPrimaryColor,
-                      onPressed: () {
+                      onPressed: () async {
                         try {
                           messageController.clear();
                           if (messageText == null || messageText.trim() == '')
                             throw 'Nothing to send';
 
-                          _firestore.collection('messages').add({
+                          await _firestore
+                              .collection('messages')
+                              .doc(widget.chatId)
+                              .collection('chats')
+                              .add({
                             'type': 'text',
-                            'uid': _user.uid,
+                            'uid': widget.uid,
                             'data': messageText,
                             'timestamp': Timestamp.now().millisecondsSinceEpoch,
                           });
@@ -293,7 +306,8 @@ class _ChatScreenState extends State<ChatScreen> {
                   height: 250,
                   child: StickerView(
                     firestore: _firestore,
-                    user: _user,
+                    uid: widget.uid,
+                    chatId: widget.chatId,
                   ),
                 ),
               ),

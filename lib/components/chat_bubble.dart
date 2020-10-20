@@ -47,7 +47,7 @@ class ChatBubble {
                   ? isFirstMessage
                       ? 25
                       : 10
-                  : 5),
+                  : 8),
           child: Container(
             constraints: BoxConstraints(
               maxWidth: MediaQuery.of(context).size.width *

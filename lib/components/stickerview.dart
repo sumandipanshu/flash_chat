@@ -1,12 +1,11 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flash_chat/global.dart';
 import 'package:flutter/material.dart';
 
 class StickerView extends StatefulWidget {
-  StickerView({this.firestore, this.user, this.scrollController});
+  StickerView({this.firestore, this.uid, this.chatId, this.scrollController});
   final FirebaseFirestore firestore;
-  final User user;
+  final String uid, chatId;
   final ScrollController scrollController;
   @override
   _StickerViewState createState() => _StickerViewState();
@@ -20,7 +19,7 @@ class _StickerViewState extends State<StickerView>
   void initState() {
     super.initState();
 
-    _stickerTabController = new TabController(length: 4, vsync: this);
+    _stickerTabController = new TabController(length: 5, vsync: this);
   }
 
   @override
@@ -57,6 +56,9 @@ class _StickerViewState extends State<StickerView>
               child:
                   Image.asset('assets/stickers/milk&mocha/milk&mocha (3).png'),
             ),
+            Tab(
+              child: Image.asset('assets/stickers/mimi/mimi2.gif'),
+            ),
           ],
         ),
         Container(
@@ -67,12 +69,16 @@ class _StickerViewState extends State<StickerView>
             children: <Widget>[
               GridView.count(
                 crossAxisCount: 3,
-                children: List.generate(40, (index) {
+                children: List.generate(ben.length, (index) {
                   return GestureDetector(
                     onTap: () {
-                      widget.firestore.collection('messages').add({
+                      widget.firestore
+                          .collection('messages')
+                          .doc(widget.chatId)
+                          .collection('chats')
+                          .add({
                         'type': 'sticker',
-                        'uid': widget.user.uid,
+                        'uid': widget.uid,
                         'data': ben[index],
                         'timestamp': Timestamp.now().millisecondsSinceEpoch,
                       });
@@ -89,12 +95,16 @@ class _StickerViewState extends State<StickerView>
               ),
               GridView.count(
                 crossAxisCount: 3,
-                children: List.generate(40, (index) {
+                children: List.generate(cute_couple.length, (index) {
                   return GestureDetector(
                     onTap: () {
-                      widget.firestore.collection('messages').add({
+                      widget.firestore
+                          .collection('messages')
+                          .doc(widget.chatId)
+                          .collection('chats')
+                          .add({
                         'type': 'sticker',
-                        'uid': widget.user.uid,
+                        'uid': widget.uid,
                         'data': cute_couple[index],
                         'timestamp': Timestamp.now().millisecondsSinceEpoch,
                       });
@@ -111,12 +121,16 @@ class _StickerViewState extends State<StickerView>
               ),
               GridView.count(
                 crossAxisCount: 3,
-                children: List.generate(40, (index) {
+                children: List.generate(little_girl.length, (index) {
                   return GestureDetector(
                     onTap: () {
-                      widget.firestore.collection('messages').add({
+                      widget.firestore
+                          .collection('messages')
+                          .doc(widget.chatId)
+                          .collection('chats')
+                          .add({
                         'type': 'sticker',
-                        'uid': widget.user.uid,
+                        'uid': widget.uid,
                         'data': little_girl[index],
                         'timestamp': Timestamp.now().millisecondsSinceEpoch,
                       });
@@ -133,12 +147,16 @@ class _StickerViewState extends State<StickerView>
               ),
               GridView.count(
                 crossAxisCount: 3,
-                children: List.generate(40, (index) {
+                children: List.generate(milk_mocha.length, (index) {
                   return GestureDetector(
                     onTap: () {
-                      widget.firestore.collection('messages').add({
+                      widget.firestore
+                          .collection('messages')
+                          .doc(widget.chatId)
+                          .collection('chats')
+                          .add({
                         'type': 'sticker',
-                        'uid': widget.user.uid,
+                        'uid': widget.uid,
                         'data': milk_mocha[index],
                         'timestamp': Timestamp.now().millisecondsSinceEpoch,
                       });
@@ -150,6 +168,32 @@ class _StickerViewState extends State<StickerView>
                       });
                     },
                     child: Image.asset(milk_mocha[index]),
+                  );
+                }),
+              ),
+              GridView.count(
+                crossAxisCount: 3,
+                children: List.generate(mimi.length, (index) {
+                  return GestureDetector(
+                    onTap: () {
+                      widget.firestore
+                          .collection('messages')
+                          .doc(widget.chatId)
+                          .collection('chats')
+                          .add({
+                        'type': 'sticker',
+                        'uid': widget.uid,
+                        'data': mimi[index],
+                        'timestamp': Timestamp.now().millisecondsSinceEpoch,
+                      });
+                      Future.delayed(Duration(milliseconds: 100), () {
+                        widget.scrollController.animateTo(
+                            widget.scrollController.position.minScrollExtent,
+                            curve: Curves.ease,
+                            duration: Duration(milliseconds: 500));
+                      });
+                    },
+                    child: Image.asset(mimi[index]),
                   );
                 }),
               ),

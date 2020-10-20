@@ -114,251 +114,255 @@ class _SubmitOTPState extends State<SubmitOTP>
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 24.0),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: [
-            Hero(
-              tag: 'logo',
-              child: Container(
-                child: Image.asset(
-                  logoImage,
-                ),
-                height: 200,
-              ),
-            ),
-            SizedBox(
-              height: 30,
-            ),
-            Text(
-              'Enter the 6-digit code we sent to ${widget.phoneNumber}:',
-              textAlign: TextAlign.center,
-              style: TextStyle(
-                color: Colors.black,
-                fontSize: 20,
-              ),
-            ),
-            SizedBox(
-              height: 15,
-            ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+      body: Center(
+        child: SingleChildScrollView(
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 24.0),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
-                OTPField(
-                  controller: inputController1,
-                  backgroundColor: error
-                      ? Colors.red.withOpacity(0.35)
-                      : kPrimaryColor.withOpacity(0.15),
-                  bottomBorderColor: error ? Colors.red : kPrimaryColor,
-                  focusNode: input1,
-                  autofocus: true,
-                  onChanged: (value) {
-                    if (value.length == 1) {
-                      FocusScope.of(context).requestFocus(input2);
-                    }
-                    digit1 = value ?? '';
-                    setState(() {
-                      error = false;
-                    });
-                  },
-                  onTap: () {
-                    setState(() {
-                      error = false;
-                    });
-                  },
-                  onEditingComplete: _submitOTP,
+                Hero(
+                  tag: 'logo',
+                  child: Container(
+                    child: Image.asset(
+                      logoImage,
+                    ),
+                    height: 200,
+                  ),
                 ),
-                OTPField(
-                  controller: inputController2,
-                  backgroundColor: error
-                      ? Colors.red.withOpacity(0.35)
-                      : kPrimaryColor.withOpacity(0.15),
-                  bottomBorderColor: error ? Colors.red : kPrimaryColor,
-                  focusNode: input2,
-                  onChanged: (value) {
-                    if (value.length == 1) {
-                      FocusScope.of(context).requestFocus(input3);
-                    }
-                    digit2 = value ?? '';
-                    setState(() {
-                      error = false;
-                    });
-                  },
-                  onTap: () {
-                    setState(() {
-                      error = false;
-                    });
-                  },
-                  onEditingComplete: _submitOTP,
+                SizedBox(
+                  height: 30,
                 ),
-                OTPField(
-                  controller: inputController3,
-                  backgroundColor: error
-                      ? Colors.red.withOpacity(0.35)
-                      : kPrimaryColor.withOpacity(0.15),
-                  bottomBorderColor: error ? Colors.red : kPrimaryColor,
-                  focusNode: input3,
-                  onChanged: (value) {
-                    if (value.length == 1) {
-                      FocusScope.of(context).requestFocus(input4);
-                    }
-                    digit3 = value ?? '';
-                    setState(() {
-                      error = false;
-                    });
-                  },
-                  onTap: () {
-                    setState(() {
-                      error = false;
-                    });
-                  },
-                  onEditingComplete: _submitOTP,
+                Text(
+                  'Enter the 6-digit code we sent to ${widget.phoneNumber}:',
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                    color: Colors.black,
+                    fontSize: 20,
+                  ),
                 ),
-                OTPField(
-                  controller: inputController4,
-                  backgroundColor: error
-                      ? Colors.red.withOpacity(0.35)
-                      : kPrimaryColor.withOpacity(0.15),
-                  bottomBorderColor: error ? Colors.red : kPrimaryColor,
-                  focusNode: input4,
-                  onChanged: (value) {
-                    if (value.length == 1) {
-                      FocusScope.of(context).requestFocus(input5);
-                    }
-                    digit4 = value ?? '';
-                    setState(() {
-                      error = false;
-                    });
-                  },
-                  onTap: () {
-                    setState(() {
-                      error = false;
-                    });
-                  },
-                  onEditingComplete: _submitOTP,
+                SizedBox(
+                  height: 15,
                 ),
-                OTPField(
-                  controller: inputController5,
-                  backgroundColor: error
-                      ? Colors.red.withOpacity(0.35)
-                      : kPrimaryColor.withOpacity(0.15),
-                  bottomBorderColor: error ? Colors.red : kPrimaryColor,
-                  focusNode: input5,
-                  onChanged: (value) {
-                    if (value.length == 1) {
-                      FocusScope.of(context).requestFocus(input6);
-                    }
-                    digit5 = value ?? '';
-                    setState(() {
-                      error = false;
-                    });
-                  },
-                  onTap: () {
-                    setState(() {
-                      error = false;
-                    });
-                  },
-                  onEditingComplete: _submitOTP,
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: [
+                    OTPField(
+                      controller: inputController1,
+                      backgroundColor: error
+                          ? Colors.red.withOpacity(0.35)
+                          : kPrimaryColor.withOpacity(0.15),
+                      bottomBorderColor: error ? Colors.red : kPrimaryColor,
+                      focusNode: input1,
+                      onChanged: (value) {
+                        if (value.length == 1) {
+                          FocusScope.of(context).requestFocus(input2);
+                        }
+                        digit1 = value ?? '';
+                        setState(() {
+                          error = false;
+                        });
+                      },
+                      onTap: () {
+                        setState(() {
+                          error = false;
+                        });
+                      },
+                      onEditingComplete: _submitOTP,
+                    ),
+                    OTPField(
+                      controller: inputController2,
+                      backgroundColor: error
+                          ? Colors.red.withOpacity(0.35)
+                          : kPrimaryColor.withOpacity(0.15),
+                      bottomBorderColor: error ? Colors.red : kPrimaryColor,
+                      focusNode: input2,
+                      onChanged: (value) {
+                        if (value.length == 1) {
+                          FocusScope.of(context).requestFocus(input3);
+                        }
+                        digit2 = value ?? '';
+                        setState(() {
+                          error = false;
+                        });
+                      },
+                      onTap: () {
+                        setState(() {
+                          error = false;
+                        });
+                      },
+                      onEditingComplete: _submitOTP,
+                    ),
+                    OTPField(
+                      controller: inputController3,
+                      backgroundColor: error
+                          ? Colors.red.withOpacity(0.35)
+                          : kPrimaryColor.withOpacity(0.15),
+                      bottomBorderColor: error ? Colors.red : kPrimaryColor,
+                      focusNode: input3,
+                      onChanged: (value) {
+                        if (value.length == 1) {
+                          FocusScope.of(context).requestFocus(input4);
+                        }
+                        digit3 = value ?? '';
+                        setState(() {
+                          error = false;
+                        });
+                      },
+                      onTap: () {
+                        setState(() {
+                          error = false;
+                        });
+                      },
+                      onEditingComplete: _submitOTP,
+                    ),
+                    OTPField(
+                      controller: inputController4,
+                      backgroundColor: error
+                          ? Colors.red.withOpacity(0.35)
+                          : kPrimaryColor.withOpacity(0.15),
+                      bottomBorderColor: error ? Colors.red : kPrimaryColor,
+                      focusNode: input4,
+                      onChanged: (value) {
+                        if (value.length == 1) {
+                          FocusScope.of(context).requestFocus(input5);
+                        }
+                        digit4 = value ?? '';
+                        setState(() {
+                          error = false;
+                        });
+                      },
+                      onTap: () {
+                        setState(() {
+                          error = false;
+                        });
+                      },
+                      onEditingComplete: _submitOTP,
+                    ),
+                    OTPField(
+                      controller: inputController5,
+                      backgroundColor: error
+                          ? Colors.red.withOpacity(0.35)
+                          : kPrimaryColor.withOpacity(0.15),
+                      bottomBorderColor: error ? Colors.red : kPrimaryColor,
+                      focusNode: input5,
+                      onChanged: (value) {
+                        if (value.length == 1) {
+                          FocusScope.of(context).requestFocus(input6);
+                        }
+                        digit5 = value ?? '';
+                        setState(() {
+                          error = false;
+                        });
+                      },
+                      onTap: () {
+                        setState(() {
+                          error = false;
+                        });
+                      },
+                      onEditingComplete: _submitOTP,
+                    ),
+                    OTPField(
+                      controller: inputController6,
+                      backgroundColor: error
+                          ? Colors.red.withOpacity(0.35)
+                          : kPrimaryColor.withOpacity(0.15),
+                      bottomBorderColor: error ? Colors.red : kPrimaryColor,
+                      focusNode: input6,
+                      onChanged: (value) {
+                        digit6 = value ?? '';
+                        setState(() {
+                          error = false;
+                        });
+                      },
+                      onTap: () {
+                        setState(() {
+                          error = false;
+                        });
+                      },
+                      onEditingComplete: _submitOTP,
+                    ),
+                  ],
                 ),
-                OTPField(
-                  controller: inputController6,
-                  backgroundColor: error
-                      ? Colors.red.withOpacity(0.35)
-                      : kPrimaryColor.withOpacity(0.15),
-                  bottomBorderColor: error ? Colors.red : kPrimaryColor,
-                  focusNode: input6,
-                  onChanged: (value) {
-                    digit6 = value ?? '';
-                    setState(() {
-                      error = false;
-                    });
-                  },
-                  onTap: () {
-                    setState(() {
-                      error = false;
-                    });
-                  },
-                  onEditingComplete: _submitOTP,
+                SizedBox(
+                  height: 10,
+                ),
+                Padding(
+                  padding: EdgeInsets.symmetric(vertical: 16.0),
+                  child: RoundedButton(
+                    color: Colors.lightBlueAccent,
+                    onPressed: _submitOTP,
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Text(
+                          'Verify OTP',
+                          style: TextStyle(
+                            fontSize: 15,
+                            color: Colors.white,
+                          ),
+                        ),
+                        Visibility(
+                          child: Padding(
+                            padding: const EdgeInsets.only(left: 10.0),
+                            child: SizedBox(
+                                width: 25,
+                                height: 25,
+                                child: CircularProgressIndicator()),
+                          ),
+                          visible: isWaiting,
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+                Padding(
+                  padding: EdgeInsets.symmetric(vertical: 5.0),
+                  child: RoundedButton(
+                    color: activateResendOTPButton
+                        ? Colors.white
+                        : Colors.grey[400],
+                    onPressed: activateResendOTPButton
+                        ? () {
+                            setState(() {
+                              activateResendOTPButton = false;
+                              _controller.reset();
+                              _controller.forward();
+                            });
+                            PhoneAuthentication.submitPhoneNumber(
+                                context, widget.phoneNumber, widget.timeout);
+                          }
+                        : null,
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Text(
+                          'Resend OTP',
+                          style: TextStyle(
+                            fontSize: 15,
+                            color: activateResendOTPButton
+                                ? Colors.black
+                                : Colors.black54,
+                          ),
+                        ),
+                        Visibility(
+                          visible: !activateResendOTPButton,
+                          child: Countdown(
+                            animation: StepTween(
+                              begin: widget.timeout,
+                              end: 0,
+                            ).animate(_controller),
+                            color: Colors.black54,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
                 ),
               ],
             ),
-            SizedBox(
-              height: 10,
-            ),
-            Padding(
-              padding: EdgeInsets.symmetric(vertical: 16.0),
-              child: RoundedButton(
-                color: Colors.lightBlueAccent,
-                onPressed: _submitOTP,
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Text(
-                      'Verify OTP',
-                      style: TextStyle(
-                        fontSize: 15,
-                        color: Colors.white,
-                      ),
-                    ),
-                    Visibility(
-                      child: Padding(
-                        padding: const EdgeInsets.only(left: 10.0),
-                        child: SizedBox(
-                            width: 25,
-                            height: 25,
-                            child: CircularProgressIndicator()),
-                      ),
-                      visible: isWaiting,
-                    ),
-                  ],
-                ),
-              ),
-            ),
-            Padding(
-              padding: EdgeInsets.symmetric(vertical: 5.0),
-              child: RoundedButton(
-                color:
-                    activateResendOTPButton ? Colors.white : Colors.grey[400],
-                onPressed: activateResendOTPButton
-                    ? () {
-                        setState(() {
-                          activateResendOTPButton = false;
-                          _controller.reset();
-                          _controller.forward();
-                        });
-                        PhoneAuthentication.submitPhoneNumber(
-                            context, widget.phoneNumber, widget.timeout);
-                      }
-                    : null,
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Text(
-                      'Resend OTP',
-                      style: TextStyle(
-                        fontSize: 15,
-                        color: activateResendOTPButton
-                            ? Colors.black
-                            : Colors.black54,
-                      ),
-                    ),
-                    Visibility(
-                      visible: !activateResendOTPButton,
-                      child: Countdown(
-                        animation: StepTween(
-                          begin: widget.timeout,
-                          end: 0,
-                        ).animate(_controller),
-                        color: Colors.black54,
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-            ),
-          ],
+          ),
         ),
       ),
     );
